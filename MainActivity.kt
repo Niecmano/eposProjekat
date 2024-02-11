@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.istrazi.R.*
 
+//nasledjuje AppCompatActivity nadklasu
 class MainActivity : AppCompatActivity(){
 
     private var trenutniBroj=StringBuilder()
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layout.activity_main)
+        setContentView(layout.activity_main)    //postavljamo layout (dizajn) za ovu aktivnost na activity_main.xml
         prikazBroja = findViewById(R.id.prikazBroja)
         inicijalizacijaBajo()
     }
@@ -52,39 +53,50 @@ class MainActivity : AppCompatActivity(){
         }
         val dugmeJednako:Button = findViewById(R.id.dugmeJednako)
         dugmeJednako.setOnClickListener {klikNaJednako()}
+
+        val dugmeBrisi:Button = findViewById(R.id.dugmeBrisi)
+        dugmeBrisi.setOnClickListener {klikNaBrisi()}
+    }
+
+    private fun klikNaBrisi() {
+        trenutniBroj.clear()
+        prikazBroja.text="0"
     }
 
     private fun klikNaJednako() {
         val drugiBroj = trenutniBroj.toString().toInt()
-        var rezultat:Int
-        when(operator){
-            Operator.PLUS -> rezultat = prviBroj+drugiBroj
-            Operator.MINUS -> rezultat = prviBroj-drugiBroj
-            Operator.MNOZI -> rezultat = prviBroj*drugiBroj
-            Operator.DELI -> rezultat = if (drugiBroj != 0) prviBroj / drugiBroj else 0
-            else -> rezultat=0
+        try {
+            var rezultat:Int = when(operator){
+                Operator.PLUS -> prviBroj+drugiBroj
+                Operator.MINUS -> prviBroj-drugiBroj
+                Operator.MNOZI -> prviBroj*drugiBroj
+                Operator.DELI -> prviBroj/drugiBroj
+                else -> 0
+            }
+            trenutniBroj.clear()
+            trenutniBroj.append(rezultat.toString())
+            prikazBroja.text=trenutniBroj
+            kliknutOperator=true
+        }catch (e:ArithmeticException){
+            prikazBroja.text="Nije moguce deljenje sa nulom"
         }
-        trenutniBroj.clear()
-        trenutniBroj.append(rezultat.toString())
-        prikazBroja.text=trenutniBroj
-        kliknutOperator=true
     }
 
 
-private fun klikNaOperator(i: Button) {
-    operator = when (i.text) {
-        "+" -> Operator.PLUS
-        "-" -> Operator.MINUS
-        "*" -> Operator.MNOZI
-        "/" -> Operator.DELI
-        else -> Operator.NONE
+    private fun klikNaOperator(i: Button) {
+        operator = when (i.text) {
+            "+" -> Operator.PLUS
+            "-" -> Operator.MINUS
+            "*" -> Operator.MNOZI
+            "/" -> Operator.DELI
+            else -> Operator.NONE
+        }
+        kliknutOperator = true
     }
-    kliknutOperator = true
-}
 
 
     private fun klikNaCifru(dugme: Button) {
-        if(kliknutOperator){
+        if(trenutniBroj.isNotEmpty() && kliknutOperator){
             prviBroj = trenutniBroj.toString().toInt()
             trenutniBroj.clear()
             kliknutOperator = false

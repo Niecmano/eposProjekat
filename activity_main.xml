@@ -124,14 +124,6 @@
             android:paddingVertical="0dp">
 
             <Button
-                android:id="@+id/button9"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center"
-                android:text="9" />
-
-            <Button
                 android:id="@+id/button7"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="100dp"
@@ -146,6 +138,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center"
                 android:text="8" />
+
+            <Button
+                android:id="@+id/button9"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center"
+                android:text="9" />
 
             <Button
                 android:id="@+id/dugmePuta"
